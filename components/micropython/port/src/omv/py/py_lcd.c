@@ -644,7 +644,19 @@ end:
 
 extern int font_utf8_strlen(mp_obj_t str);
 extern int font_width();
+static mp_obj_t py_lcd_font_width()
+{
+    if (type == DEV_NONE)
+        return mp_const_none;
+    return mp_obj_new_int(font_width());
+}
 extern int font_height();
+static mp_obj_t py_lcd_font_height()
+{
+    if (type == DEV_NONE)
+        return mp_const_none;
+    return mp_obj_new_int(font_height());
+}
 extern void imlib_draw_string(image_t *img, int x_off, int y_off, mp_obj_t str, int c);
 STATIC mp_obj_t py_lcd_draw_string(size_t n_args, const mp_obj_t *args)
 {
@@ -874,6 +886,8 @@ STATIC MP_DEFINE_CONST_FUN_OBJ_KW(py_lcd_display_obj, 1, py_lcd_display);
 STATIC MP_DEFINE_CONST_FUN_OBJ_KW(py_lcd_clear_obj, 0, py_lcd_clear);
 STATIC MP_DEFINE_CONST_FUN_OBJ_1(py_lcd_direction_obj, py_lcd_direction);
 STATIC MP_DEFINE_CONST_FUN_OBJ_2(py_lcd_write_register_obj, py_lcd_write_register);
+STATIC MP_DEFINE_CONST_FUN_OBJ_0(py_lcd_font_width_obj, py_lcd_font_width);
+STATIC MP_DEFINE_CONST_FUN_OBJ_0(py_lcd_font_height_obj, py_lcd_font_height);
 STATIC MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(py_lcd_rotation_obj, 0, 1, py_lcd_rotation);
 STATIC MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(py_lcd_mirror_obj, 0, 1, py_lcd_mirror);
 STATIC MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(py_lcd_bgr_to_rgb_obj, 0, 1, py_lcd_bgr_to_rgb);
@@ -902,6 +916,8 @@ static const mp_map_elem_t globals_dict_table[] = {
     {MP_OBJ_NEW_QSTR(MP_QSTR_fill_rectangle), (mp_obj_t)&py_lcd_fill_rectangle_obj},
     {MP_OBJ_NEW_QSTR(MP_QSTR_draw_qr_code), (mp_obj_t)&py_lcd_draw_qr_code_obj},
     {MP_OBJ_NEW_QSTR(MP_QSTR_register), (mp_obj_t)&py_lcd_write_register_obj},
+    {MP_OBJ_NEW_QSTR(MP_QSTR_font_width), (mp_obj_t)&py_lcd_font_width_obj},
+    {MP_OBJ_NEW_QSTR(MP_QSTR_font_height), (mp_obj_t)&py_lcd_font_height_obj},
     {MP_OBJ_NEW_QSTR(MP_QSTR_XY_RLUD), MP_OBJ_NEW_SMALL_INT(DIR_XY_RLUD)},
     {MP_OBJ_NEW_QSTR(MP_QSTR_YX_RLUD), MP_OBJ_NEW_SMALL_INT(DIR_YX_RLUD)},
     {MP_OBJ_NEW_QSTR(MP_QSTR_XY_LRUD), MP_OBJ_NEW_SMALL_INT(DIR_XY_LRUD)},
