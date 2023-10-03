@@ -540,6 +540,12 @@ static uint8_t unicode[] = {
 0xF0,0xF0,0xF0,0xF0,0xF0,0xF0,0xF0,0xF0,0xF0,0xF0,0xF0,0xF0,0xF0,0xF0,0xF0,0xF0,0xF0,0xF0,0xF0,0xF0,0xF0,0xF0,0xF0,0xF0
 };
 
+// jdlcdl was here
+uint8_t min_width = 9;
+uint8_t max_width = 16;
+const uint8_t dflt_width = 12;
+const uint8_t dflt_high = 24;
+
 struct font
 {
   /* data */
@@ -549,7 +555,8 @@ struct font
   uint8_t source;
   void *this;
 } font_config = {
-  12, 24, Unicode, BuildIn, unicode
+  // jdlcdl was here
+  dflt_width, dflt_high, Unicode, BuildIn, unicode
 };
 
 static inline void font_init(uint8_t width, uint8_t high, uint8_t index, uint8_t source_type, void *font_offset)
@@ -597,7 +604,12 @@ void font_load(uint8_t index, uint8_t width, uint8_t high, uint8_t source_type, 
     case GBK:
     case GB2312:
     case ASCII:
-        font_init(8, 12, ASCII, BuildIn, ascii);
+        // jdlcdl was here
+        if (width < min_width || width > max_width)
+        {
+            width = dflt_width;
+        }
+        font_init(width, dflt_high, Unicode, BuildIn, unicode);
     break;
     }
 }
